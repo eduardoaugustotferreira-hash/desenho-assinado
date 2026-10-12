@@ -22,6 +22,6 @@ Framework preset: `None`. Build command: vazio. Build output directory: `public`
 
 ## Identificação (preencha após o fork)
 
-Nome: 
-RA: 
-URL: https://
+Nome:  Eduardo Augusto Teresin Ferreira
+RA: 2026108377
+URL: https://desenho-assinado-4qj.pages.dev

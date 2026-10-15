@@ -1,0 +1,63 @@
+
+name: revisao-ia
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  revisar:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Instalar Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Montar prompt com as alteracoes
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git fetch origin "$BASE_REF"
+          git diff "origin/$BASE_REF...$HEAD_SHA" > alteracoes.diff
+
+          {
+            echo "Revise as alteracoes deste Pull Request."
+            echo "Aponte, em portugues, ate 10 problemas encontrados."
+            echo "Procure segredos expostos, SQL vulneravel e erros de logica."
+            echo '```diff'
+            head -c 20000 alteracoes.diff
+            echo
+            echo '```'
+          } > prompt.txt
+
+      - name: Revisar com Inteligencia Artificial
+        id: ia
+        uses: actions/ai-inference@v1
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+        with:
+          prompt-file: prompt.txt
+          system-prompt: "Voce e um revisor de codigo objetivo."
+
+      - name: Publicar comentario no Pull Request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          RESPONSE_FILE: ${{ steps.ia.outputs.response-file }}
+        run: gh pr comment "$PR_NUMBER" --body-file "$RESPONSE_FILE"

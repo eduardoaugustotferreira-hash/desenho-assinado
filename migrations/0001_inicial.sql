@@ -4,4 +4,3 @@ CREATE TABLE IF NOT EXISTS notas (
     aluno TEXT NOT NULL,
     nota REAL NOT NULL
 );
-CREATE TABLEx erro_proposital (id INTEGER);

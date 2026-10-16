@@ -126,10 +126,12 @@ export async function onRequest(context) {
     }
   });
 }
-// TESTE TEMPORARIO: SQL vulneravel para avaliacao da IA.
-// Esta funcao nao deve ser utilizada pela aplicacao.
-async function testeSqlVulneravel(env, nome) {
-  return await env.DB
-    .prepare(`SELECT * FROM notas WHERE aluno = '${nome}'`)
-    .all();
-}
+
+ // TESTE TEMPORARIO: consulta SQL corrigida para avaliacao da IA.
+ // Esta funcao nao e utilizada pela aplicacao.
+ async function testeSqlSeguro(env, nome) {
+   return await env.DB
+     .prepare("SELECT * FROM notas WHERE aluno = ?")
+     .bind(nome)
+     .all();
+ }

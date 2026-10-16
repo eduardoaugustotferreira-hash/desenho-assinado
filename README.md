@@ -25,3 +25,7 @@ Framework preset: `None`. Build command: vazio. Build output directory: `public`
 Nome:  Eduardo Augusto Teresin Ferreira
 RA: 2026108377
 URL: https://desenho-assinado-4qj.pages.dev
+
+## Teste do GitHub Actions
+
+Alteração realizada apenas na documentação para verificar que o workflow de migração D1 não é executado quando a pasta migrations não é modificada.

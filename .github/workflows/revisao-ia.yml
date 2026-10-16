@@ -53,6 +53,7 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
         with:
           prompt-file: prompt.txt
+          model: ''
           system-prompt: "Voce e um revisor de codigo objetivo."
 
       - name: Publicar comentario no Pull Request

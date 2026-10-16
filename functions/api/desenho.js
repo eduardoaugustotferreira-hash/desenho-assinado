@@ -126,3 +126,12 @@ export async function onRequest(context) {
     }
   });
 }
+
+ // TESTE TEMPORARIO: consulta SQL corrigida para avaliacao da IA.
+ // Esta funcao nao e utilizada pela aplicacao.
+ async function testeSqlSeguro(env, nome) {
+   return await env.DB
+     .prepare("SELECT * FROM notas WHERE aluno = ?")
+     .bind(nome)
+     .all();
+ }

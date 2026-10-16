@@ -38,8 +38,11 @@ jobs:
 
           {
             echo "Revise as alteracoes deste Pull Request."
-            echo "Aponte, em portugues, ate 10 problemas encontrados."
-            echo "Procure segredos expostos, SQL vulneravel e erros de logica."
+            echo "Analise primeiro SQL Injection nos arquivos JavaScript."
+            echo "Verifique consultas SQL que inserem variaveis diretamente no texto, especialmente em prepare()."
+            echo "Informe o arquivo, a linha e como corrigir com parametros e bind()."
+            echo "Depois analise segredos expostos, configuracoes de seguranca e erros de logica."
+            echo "Reporte ate 10 problemas. Nao omita SQL Injection mesmo que encontre outros riscos."
             echo '```diff'
             head -c 20000 alteracoes.diff
             echo
